@@ -1,24 +1,6 @@
 var models = require ('../models/models.js');
 
 
-// Autoload :id
-// exports.load = function(req, res, next, quizId) {
-//   models.Quiz.find({
-//             where: {
-//                 id: Number(quizId)
-//             },
-//             include: [{
-//                 model: models.Comment
-//             }]
-//        }).then(function(quiz) {
-//       if (quiz) {
-//         req.quiz = quiz;
-//         next();
-//       } else{next(new Error('No existe quizId=' + quizId))}
-//     }
-//   ).catch(function(error){next(error)});
-// };
-
 // Autoload - factoriza el código si ruata incluye :quizId
 exports.load = function(req, res, next, quizId){
 	models.Quiz.findById(quizId).then(
@@ -34,12 +16,28 @@ exports.load = function(req, res, next, quizId){
 
 //GET /quizes
 exports.index = function (req,res){
-        models.Quiz.findAll().then(
-		function(quizes) {
-                	res.render('quizes/index', {quizes: quizes});
+	
+	var search = req.query.search;
+	console.log("search---->"+search);
+
+	if(typeof search != 'undefined'){
+		 console.log("-->1");
+		search = search.replace(/\s/g, "%");
+		 models.Quiz.findAll({where: ["pregunta like ?", '%'+search+'%']}).then(
+                        function(quizes) {
+		
+                                res.render('quizes/index', {quizes: quizes});}
+
+		).catch(function(error){ next(error);})
+	}else{
+		console.log("-->2");
+	        models.Quiz.findAll().then(
+			function(quizes) {
+                		res.render('quizes/index', {quizes: quizes});
+		}).catch(function(error){ next(error);})
         }
-     ).catch(function(error){ next(error);})
-};
+      };
+
 
 
 
