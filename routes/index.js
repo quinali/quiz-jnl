@@ -4,6 +4,7 @@ var router = express.Router();
 var quizController = require ('../controllers/quiz_controller');
 var commentController = require('../controllers/comment_controller');
 var sessionController = require('../controllers/session_controller');
+var statisticsController = require('../controllers/statistics_controller');
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -24,6 +25,10 @@ router.get('/logout', sessionController.destroy); // destruir sesión
 
 // Definición de rutas de /quizes
 router.get('/quizes?search=(\\a+)', quizController.search);        
+// Por ejercicio 9
+router.get('/quizes/statistics',  sessionController.loginRequired, statisticsController.index);
+
+
 router.get('/quizes',                         quizController.index);
 router.get('/quizes/:quizId(\\d+)',           quizController.show);
 router.get('/quizes/:quizId(\\d+)/answer',    quizController.answer);

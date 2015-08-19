@@ -53,4 +53,6 @@ sequelize.sync().then(function(){
 		.then(function(){console.log('Base de datos inicializada')});
 	};
       });
-    });		
+    });	
+
+exports.Sequilize = sequelize;	

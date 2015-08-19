@@ -21,7 +21,7 @@ exports.load = function(req, res, next, quizId) {
 };
 
 //GET /quizes?search=
-exports.search = function (req,res){
+exports.search = function (req,res, next){
 	var search = req.query.search;
 	console.log("---------------->index.search()");
 	if(typeof search != 'undefined'){
@@ -34,17 +34,17 @@ exports.search = function (req,res){
 		}
 };
 //GET /quizes
-exports.index = function (req,res){
-
-	var search = req.query.search;
-
-	console.log("---------------->index.findAll()");
-	        models.Quiz.findAll().then(
-			   function(quizes) {
-							res.render('quizes/index.ejs', {quizes: quizes, errors: []});
-						}
-				    ).catch(function(error){ next(error)});
-	};
+//exports.index = function (req,res){
+//
+//	var search = req.query.search;
+//
+//	console.log("---------------->index.findAll()");
+//	        models.Quiz.findAll().then(
+//			   function(quizes) {
+//							res.render('quizes/index.ejs', {quizes: quizes, errors: []});
+//						}
+//				    ).catch(function(error){ next(error)});
+//	};
 
 
 exports.index = function(req, res) {  
